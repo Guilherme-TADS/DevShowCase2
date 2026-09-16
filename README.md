@@ -128,11 +128,7 @@ O repositório inclui a configuração de Infraestrutura como Código `render.ya
 
 ---
 
-## 🎬 Guia de Gravação do Vídeo e Entrega
+## 🧪 Testes com Postman
 
-Consulte o arquivo **[GUIA_GRAVACAO_E_ENTREGA.md](./GUIA_GRAVACAO_E_ENTREGA.md)** para acessar:
-- O checklist obrigatório de gravação (5 a 8 minutos, webcam, tela cheia e Postman).
-- O roteiro minuto a minuto com falas sugeridas.
-- O modelo de documento para o **arquivo PDF com os 3 links de entrega**.
-- A coleção do Postman pronta para importação: `devshowcase.postman_collection.json`.
+A coleção completa de requisições para testes e validação de todos os endpoints e tratamentos de erro está disponível no arquivo [`devshowcase.postman_collection.json`](./devshowcase.postman_collection.json).
 
