@@ -1,0 +1,487 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+		"name": "DevShowcase API - Produção e Testes Finais",
+		"description": "Coleção completa e sequencial de requisições HTTP para a apresentação em vídeo da etapa final do DevShowcase API. Inclui endpoints de projetos, upvotes, feedbacks com cálculo de média, filtros com paginação e simulação de erros 400 e 404.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "profileId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "projectId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "techNodeId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "techReactId",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "1. Healthcheck e Status",
+			"item": [
+				{
+					"name": "GET / - Healthcheck da API",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/",
+							"host": ["{{baseUrl}}"],
+							"path": [""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "2. Perfis (Profiles)",
+			"item": [
+				{
+					"name": "POST /api/profiles - Cadastrar Perfil",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.id) {",
+									"    pm.collectionVariables.set('profileId', jsonData.id);",
+									"    console.log('profileId salvo:', jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Guilherme Carvalho\",\n  \"email\": \"guilherme.dev@example.com\",\n  \"bio\": \"Desenvolvedor Full Stack especializado em TypeScript, Node.js e Cloud\",\n  \"githubUrl\": \"https://github.com/guilherme\",\n  \"linkedinUrl\": \"https://linkedin.com/in/guilherme\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/profiles",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "profiles"]
+						}
+					}
+				},
+				{
+					"name": "GET /api/profiles - Listar Todos os Perfis",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/profiles",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "profiles"]
+						}
+					}
+				},
+				{
+					"name": "GET /api/profiles/:id - Buscar Perfil por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/profiles/{{profileId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "profiles", "{{profileId}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "3. Tecnologias (Technologies)",
+			"item": [
+				{
+					"name": "POST /api/technologies - Cadastrar Node.js",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.id) {",
+									"    pm.collectionVariables.set('techNodeId', jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Node.js\",\n  \"category\": \"Backend\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/technologies",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "technologies"]
+						}
+					}
+				},
+				{
+					"name": "POST /api/technologies - Cadastrar React",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.id) {",
+									"    pm.collectionVariables.set('techReactId', jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"React\",\n  \"category\": \"Frontend\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/technologies",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "technologies"]
+						}
+					}
+				},
+				{
+					"name": "GET /api/technologies - Listar Todas as Tecnologias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/technologies",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "technologies"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "4. Projetos (Projects)",
+			"item": [
+				{
+					"name": "POST /api/projects - Cadastrar Projeto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.id) {",
+									"    pm.collectionVariables.set('projectId', jsonData.id);",
+									"    console.log('projectId salvo:', jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"DevShowcase API\",\n  \"description\": \"API RESTful robusta com PostgreSQL, Swagger, regras de negócio e deploy contínuo no Render.\",\n  \"repositoryUrl\": \"https://github.com/Guilherme-TADS/DevShowCase2\",\n  \"demoUrl\": \"https://devshowcase-api.onrender.com\",\n  \"profileId\": \"{{profileId}}\",\n  \"technologyIds\": [\n    \"{{techNodeId}}\",\n    \"{{techReactId}}\"\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/projects",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "projects"]
+						}
+					}
+				},
+				{
+					"name": "GET /api/projects - Paginação (Página 1, Limite 10)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/projects?page=1&limit=10",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "projects"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "GET /api/projects - Filtrar por Tecnologia (Node.js)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/projects?technology=Node.js&page=1&limit=5",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "projects"],
+							"query": [
+								{
+									"key": "technology",
+									"value": "Node.js"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "GET /api/projects/:id - Buscar Projeto por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/{{projectId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "projects", "{{projectId}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "5. Upvotes / Curtidas (Etapa Final)",
+			"item": [
+				{
+					"name": "PUT /api/projects/:id/upvote - Primeiro Upvote (+1)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/{{projectId}}/upvote",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "projects", "{{projectId}}", "upvote"]
+						}
+					}
+				},
+				{
+					"name": "PUT /api/projects/:id/upvote - Segundo Upvote (+1)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/{{projectId}}/upvote",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "projects", "{{projectId}}", "upvote"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "6. Avaliações / Feedbacks (Etapa Final)",
+			"item": [
+				{
+					"name": "POST /api/projects/:id/feedbacks - Avaliação 1 (Nota 5)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"comment\": \"Excelente API! Código muito bem estruturado e documentado.\",\n  \"rating\": 5\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/{{projectId}}/feedbacks",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "projects", "{{projectId}}", "feedbacks"]
+						}
+					}
+				},
+				{
+					"name": "POST /api/projects/:id/feedbacks - Avaliação 2 (Nota 4 - Média Atualizada)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"comment\": \"Parabéns pela implementação da camada de serviços e deploy no Render.\",\n  \"rating\": 4\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/{{projectId}}/feedbacks",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "projects", "{{projectId}}", "feedbacks"]
+						}
+					}
+				},
+				{
+					"name": "GET /api/projects/:id/feedbacks - Listar Feedbacks do Projeto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/{{projectId}}/feedbacks",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "projects", "{{projectId}}", "feedbacks"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "7. Tratamento Global de Erros (Demonstração)",
+			"item": [
+				{
+					"name": "POST /api/projects/:id/feedbacks - Erro 400 (Nota Inválida 6)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"comment\": \"Nota fora do limite\",\n  \"rating\": 6\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/{{projectId}}/feedbacks",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "projects", "{{projectId}}", "feedbacks"]
+						}
+					}
+				},
+				{
+					"name": "POST /api/projects/:id/feedbacks - Erro 400 (Comentário Vazio)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"comment\": \"\",\n  \"rating\": 5\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/{{projectId}}/feedbacks",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "projects", "{{projectId}}", "feedbacks"]
+						}
+					}
+				},
+				{
+					"name": "PUT /api/projects/:id/upvote - Erro 404 (ID Inexistente)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/00000000-0000-0000-0000-000000000000/upvote",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "projects", "00000000-0000-0000-0000-000000000000", "upvote"]
+						}
+					}
+				},
+				{
+					"name": "POST /api/projects/:id/feedbacks - Erro 404 (ID Inexistente)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"comment\": \"Feedback para projeto que não existe\",\n  \"rating\": 5\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/projects/00000000-0000-0000-0000-000000000000/feedbacks",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "projects", "00000000-0000-0000-0000-000000000000", "feedbacks"]
+						}
+					}
+				},
+				{
+					"name": "GET /api/rota-inexistente - Erro 404 (Rota não encontrada)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/rota-inexistente",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "rota-inexistente"]
+						}
+					}
+				}
+			]
+		}
+	]
+}

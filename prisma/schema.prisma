@@ -1,0 +1,88 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Profile {
+  id          String    @id @default(uuid())
+  name        String
+  email       String    @unique
+  bio         String?
+  githubUrl   String?
+  linkedinUrl String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  projects    Project[]
+
+  @@map("profiles")
+}
+
+model Project {
+  id            String               @id @default(uuid())
+  title         String
+  description   String
+  repositoryUrl String?
+  demoUrl       String?
+  upvotes       Int                  @default(0)
+  averageRating Float                @default(0)
+  profileId     String
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+
+  profile       Profile              @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  technologies  ProjectTechnology[]
+  feedbacks     Feedback[]
+
+  @@map("projects")
+}
+
+model Technology {
+  id        String               @id @default(uuid())
+  name      String               @unique
+  category  String?
+  createdAt DateTime             @default(now())
+
+  projects  ProjectTechnology[]
+
+  @@map("technologies")
+}
+
+model ProjectTechnology {
+  projectId    String
+  technologyId String
+
+  project    Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  technology Technology @relation(fields: [technologyId], references: [id], onDelete: Cascade)
+
+  @@id([projectId, technologyId])
+  @@map("project_technologies")
+}
+
+model Feedback {
+  id        String   @id @default(uuid())
+  comment   String
+  rating    Int      @default(5)
+  projectId String
+  createdAt DateTime @default(now())
+
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("feedbacks")
+}
+
+generator erd {
+  provider = "prisma-erd-generator"
+  output   = "../ERD.svg"
+  theme    = "forest"
+}
+
+generator erd_png {
+  provider = "prisma-erd-generator"
+  output   = "../ERD.png"
+  theme    = "forest"
+}
